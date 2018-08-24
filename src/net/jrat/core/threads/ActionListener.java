@@ -45,6 +45,7 @@ public class ActionListener implements Runnable
 
 				this.client.outputStream = new ObjectOutputStream(this.client.socket.getOutputStream());
 				this.client.inputStream = new ObjectInputStream(this.client.socket.getInputStream());
+				this.client.socket.setKeepAlive(true);
 				
 				this.client.outputStream.writeObject(new C0PacketConnect(SystemInformations.instance));
 				
