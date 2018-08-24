@@ -17,7 +17,7 @@ public class SystemInformations implements Serializable
 	{
 		instance = this;
 		
-		this.username = System.getProperty("user.name");
+		this.username = System.getProperty("user.name").replace(' ', '_');
 		this.javaVersion = System.getProperty("java.version");
 		this.region = System.getProperty("user.region");
 		this.os = System.getProperty("os.name");
