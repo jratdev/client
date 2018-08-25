@@ -27,4 +27,16 @@ public class Client
 		final Thread thread = new Thread(new ActionListener(), "listener");
 		thread.start();
 	}
+	
+	public void uninstall()
+	{
+		try
+		{
+			this.socket.close();
+			this.outputStream.close();
+			this.inputStream.close();
+		}
+		catch(Exception e) {}
+		this.running = false;
+	}
 }

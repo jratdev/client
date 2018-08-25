@@ -20,18 +20,33 @@ public class ActionListener implements Runnable
 		while(this.client.running)
 		{
 			this.waitForConnection();
-			
+
 			try
 			{
 				final Object input = this.client.inputStream.readObject();
 				
-				if(input instanceof IPacket)
+				try
 				{
-					final IPacket packet = (IPacket) input;
-					packet.execute(null);
+					if(input instanceof IPacket)
+					{
+						final IPacket packet = (IPacket) input;
+						packet.execute(null);
+					}
 				}
+				catch(Exception e) {}
 			}
-			catch(Exception e) {}
+			catch(Exception e)
+			{
+				this.client.connected = false;
+				
+				try
+				{
+					this.client.socket.close();
+					this.client.inputStream.close();
+					this.client.outputStream.close();
+				}
+				catch(Exception e0) {}
+			}
 		}
 	}
 	
