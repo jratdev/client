@@ -23,7 +23,7 @@ public class Client
 		
 		this.connected = false;
 		this.running = true;
-		
+
 		final Thread thread = new Thread(new ActionListener(), "listener");
 		thread.start();
 	}
