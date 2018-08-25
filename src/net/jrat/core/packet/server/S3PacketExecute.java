@@ -26,26 +26,28 @@ public class S3PacketExecute implements IPacket
 				@Override
 				public void run()
 				{
-					try
-					{
-						final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-						final StringBuilder builder = new StringBuilder();
-						
-						String line;
-						while(!((line = reader.readLine()) == null))
-							builder.append(line).append("\n");
-						reader.close();
-						
-						String command = builder.toString();
-						command = command.substring(0, command.length() - 2);
-						
-						Client.instance.outputStream.writeObject(new C1PacketMessage(command));
-					}
-					catch (Exception e) {}
+					while(process.isAlive() && Client.instance.running);
+					process.destroy();
 				}
 			}, "execute").start();
 			
-			process.waitFor();
+			try
+			{
+				final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				final StringBuilder builder = new StringBuilder();
+				
+				String line;
+				while(!((line = reader.readLine()) == null) && Client.instance.running)
+					builder.append(line).append("\n");
+				reader.close();
+				
+				String command = builder.toString();
+				command = command.substring(0, command.length() - 1);
+				
+				if(Client.instance.running)
+					Client.instance.outputStream.writeObject(new C1PacketMessage(command));
+			}
+			catch (Exception e) {}
 		}
 		catch (Exception e) {}
 	}

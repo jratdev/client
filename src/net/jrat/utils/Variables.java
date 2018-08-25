@@ -11,6 +11,9 @@ public class Variables
 	{
 		instance = this;
 		
+		this.address = "localhost";
+		this.port = 1337;
+		
 		return instance;
 	}
 }
