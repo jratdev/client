@@ -1,8 +1,12 @@
 package net.jrat.utils;
 
+import net.jrat.core.connection.OS;
+
 public class Variables
 {
 	public static Variables instance;
+	
+	public OS operatingSystem;
 	
 	public String address;
 	public int port;
@@ -11,8 +15,7 @@ public class Variables
 	{
 		instance = this;
 		
-		this.address = "localhost";
-		this.port = 1337;
+		this.operatingSystem = Utils.getOperatingSystem();
 		
 		return instance;
 	}
