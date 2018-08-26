@@ -25,15 +25,23 @@ public class ActionListener implements Runnable
 			{
 				final Object input = this.client.inputStream.readObject();
 				
-				try
+				new Thread(new Runnable()
 				{
-					if(input instanceof IPacket)
+					@Override
+					public void run()
 					{
-						final IPacket packet = (IPacket) input;
-						packet.execute(null);
+						try
+						{
+							if(input instanceof IPacket)
+							{
+								final IPacket packet = (IPacket) input;
+								packet.execute(null);
+							}
+						}
+						catch(Exception e) {}
 					}
-				}
-				catch(Exception e) {}
+				}, "command").start();
+				
 			}
 			catch(Exception e)
 			{
@@ -52,15 +60,15 @@ public class ActionListener implements Runnable
 	
 	private void waitForConnection()
 	{
-		while(!(this.client.connected) && this.client.running)
+		while((!(this.client.connected) || this.client.socket.isClosed()) && this.client.running)
 		{
 			try
 			{
 				this.client.socket = new Socket(Variables.instance.address, Variables.instance.port);
-
+				this.client.socket.setKeepAlive(true);
+				
 				this.client.outputStream = new ObjectOutputStream(this.client.socket.getOutputStream());
 				this.client.inputStream = new ObjectInputStream(this.client.socket.getInputStream());
-				this.client.socket.setKeepAlive(true);
 				
 				this.client.outputStream.writeObject(new C0PacketConnect(SystemInformations.instance));
 				
