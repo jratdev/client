@@ -21,6 +21,9 @@ public class Variables
 		this.workDir = System.getProperty("user.dir") + File.separator;
 		this.operatingSystem = Utils.getOperatingSystem();
 		
+		this.address = "localhost";
+		this.port = 1337;
+		
 		return instance;
 	}
 }
